@@ -5,6 +5,7 @@ const Usuarios = require('../models/usuarios');
 
 router.get('/', async (req, res) => {
     const usuarios = await Usuarios.find();
+    
     res.render('index', {
         usuarios //es lo mismo que colocar usuarios: usuarios - Actualizacion de JS
     });

@@ -31,21 +31,8 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <% for (var i = 0; i < usuarios.length; i++) { %>
-                    <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= usuarios[i].nombre %></td>
-                        <td><%= usuarios[i].apellido %></td>
-                        <td>
-                            <a href="/activar/<%= usuarios[i]._id%>" class="btn <%= usuarios[i].activo ? 'btn-success' : 'btn-dark' %>">
-                                Activar
-                            </a>
-                            <a href="/borrar/<%= usuarios[i]._id%>" class="btn btn-danger">Borrar</a>
-                            <a href="/editar/<%= usuarios[i]._id%>" class="btn btn-info">Editar</a>
-                        </td>
-                    </tr>
-                    <% } %>
+                <tbody id="bodyTablaUsuarios">
+                    
                 </tbody>
             </table>
         </div>
@@ -54,4 +41,67 @@
 </div>
 
 <% include partials/_footer %>
+
+
+<script>
+    var arrUsuarios = <%- JSON.stringify(usuarios) %>;
+
+    function dibujarTablaUsuarios(){
+        $('#bodyTablaUsuarios').find('tr').remove();
     
+        for (var i = 0; i < arrUsuarios.length; i++)
+        {
+            var usuario = arrUsuarios[i];
+
+            var body = document.getElementById("bodyTablaUsuarios");
+            var row = body.insertRow();
+
+            row.id = i;
+            
+            var num = row.insertCell(0);
+            var nombre = row.insertCell(1);
+            var apellido = row.insertCell(2);
+            var acciones = row.insertCell(3);
+
+            num.innerHTML = i + 1;
+            nombre.innerHTML = usuario.nombre;
+            apellido.innerHTML = usuario.apellido;
+            
+            dibujarAccionesDeUsuario(acciones, usuario);
+        }
+    }
+
+    function dibujarAccionesDeUsuario(contenedor, usuario){
+        //Agrega boton activar
+        var aActivar = document.createElement('a');
+        aActivar.setAttribute('href','/activar/' + usuario._id);
+
+        if (usuario.activo){
+            aActivar.setAttribute('class','btn btn-success');
+            aActivar.text = 'Desactivar';
+        }else{
+            aActivar.setAttribute('class','btn btn-dark');
+            aActivar.text = 'Activar';
+        }
+
+        contenedor.appendChild(aActivar);
+
+        //Agrega boton Borrar
+        var aBorrar = document.createElement('a');
+        aBorrar.setAttribute('href','/borrar/' + usuario._id);
+        aBorrar.setAttribute('class','btn btn-danger');
+        aBorrar.text = 'Borrar';
+        contenedor.appendChild(aBorrar);
+
+        //Agrega boton Editar
+        var aEditar = document.createElement('a');
+        aEditar.setAttribute('href','/editar/' + usuario._id);
+        aEditar.setAttribute('class','btn btn-info');
+        aEditar.text = 'Editar';
+        contenedor.appendChild(aEditar);
+    }
+
+    $( document ).ready(function() {
+        dibujarTablaUsuarios();
+    });
+</script>

@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node src/app.js",
-    "dev" : "nodemon src/app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "morgan": "^1.9.1",
     "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "jquery": "^3.4.1",
+    "mongoose": "^5.5.8"
   }
 }
