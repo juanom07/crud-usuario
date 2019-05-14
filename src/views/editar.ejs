@@ -1,0 +1,25 @@
+<% include partials/_header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/editar/<%= usuario._id %>" method="post">
+                        <div class="form-group">
+                            <input type="text" name="nombre" placeholder="Ingrese un Nombre" class="form-control" value="<%= usuario.nombre %>">
+                        </div>
+                        <div class="form-group">
+                                <input type="text" name="apellido" placeholder="Ingrese un Apellido" class="form-control" value="<%= usuario.apellido %>">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Editar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/_footer %>
