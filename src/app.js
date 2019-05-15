@@ -1,14 +1,21 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 
 const app = express();
 
 //CONECTANDO LA BD
-mongoose.connect('mongodb://localhost/crud-usuarios')
-    .then(db => console.log('DB Conectada'))
-    .catch(err => console.log(err));
+const sequelize = new Sequelize('mariadb://root:root@localhost:3306/crud');
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conectado a MariaDB');
+  })
+  .catch(err => {
+    console.error('No se ha podido conectar a la BD:', err);
+  });
+
+module.exports = sequelize;
 
 //IMPORTANDO RUTAS
 const indexRouter = require('./routes/index');

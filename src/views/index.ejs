@@ -44,9 +44,6 @@
 
 
 <script>
-    // <%= es para mostrar HTML
-    // <%- es para mostrar el contenido sin escapar
-    
     var arrUsuarios = <%- JSON.stringify(usuarios) %>;
 
     function dibujarTablaUsuarios(){
@@ -77,7 +74,7 @@
     function dibujarAccionesDeUsuario(contenedor, usuario){
         //Agrega boton activar
         var aActivar = document.createElement('a');
-        aActivar.setAttribute('href','/activar/' + usuario._id);
+        aActivar.setAttribute('href','/activar/' + usuario.id);
 
         if (usuario.activo){
             aActivar.setAttribute('class','btn btn-success');
@@ -91,14 +88,14 @@
 
         //Agrega boton Borrar
         var aBorrar = document.createElement('a');
-        aBorrar.setAttribute('href','/borrar/' + usuario._id);
+        aBorrar.setAttribute('href','/borrar/' + usuario.id);
         aBorrar.setAttribute('class','btn btn-danger');
         aBorrar.text = 'Borrar';
         contenedor.appendChild(aBorrar);
 
         //Agrega boton Editar
         var aEditar = document.createElement('a');
-        aEditar.setAttribute('href','/editar/' + usuario._id);
+        aEditar.setAttribute('href','/editar/' + usuario.id);
         aEditar.setAttribute('class','btn btn-info');
         aEditar.text = 'Editar';
         contenedor.appendChild(aEditar);

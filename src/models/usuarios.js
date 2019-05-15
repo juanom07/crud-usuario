@@ -1,13 +1,26 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Sequelize = require('sequelize');
 
-const usuariosSchema = new Schema({
-    nombre: String,
-    apellido: String,
-    activo: {
-        type: Boolean,
-        default: false
+const sequelize = require('../app');
+
+const Usuarios = sequelize.define('Usuarios', {
+        // attributes
+        nombre: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        apellido: {
+            type: Sequelize.STRING
+            // allowNull defaults to true
+        },
+        activo: {
+            type: Sequelize.BOOLEAN,
+            default: false
+        }
+    }, {
+        // options
     }
-});
+);
 
-module.exports = mongoose.model('usuarios', usuariosSchema);
+Usuarios.sync();
+
+module.exports = Usuarios;

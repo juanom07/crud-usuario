@@ -4,7 +4,7 @@ const router = express.Router();
 const Usuarios = require('../models/usuarios');
 
 router.get('/', async (req, res) => {
-    const usuarios = await Usuarios.find();
+    const usuarios = await Usuarios.findAll();
     
     res.render('index', {
         usuarios //es lo mismo que colocar usuarios: usuarios - Actualizacion de JS
@@ -21,14 +21,14 @@ router.post('/agregar', async (req, res) => {
 
 router.get('/borrar/:id', async (req, res) => {
     const {id} = req.params;
-    await Usuarios.remove({_id: id});
+    await Usuarios.destroy({where:{id: id}});
 
     res.redirect('/');
 });
 
 router.get('/activar/:id', async (req, res) => {
     const {id} = req.params;
-    const usuario = await Usuarios.findById(id);
+    const usuario = await Usuarios.findOne({where:{id: id}});
 
     usuario.activo = !usuario.activo;
     await usuario.save();
@@ -38,7 +38,7 @@ router.get('/activar/:id', async (req, res) => {
 
 router.get('/editar/:id', async (req, res) => {
     const {id} = req.params;
-    const usuario = await Usuarios.findById(id);
+    const usuario = await Usuarios.findOne({where:{id: id}});
 
     res.render('editar', {
         usuario
@@ -48,7 +48,7 @@ router.get('/editar/:id', async (req, res) => {
 router.post('/editar/:id', async (req, res) => {
     const {id} = req.params;
 
-    await Usuarios.update({_id: id}, req.body); //Cuando encuentra al usuario, 
+    await Usuarios.update(req.body, {where:{id: id}}); //Cuando encuentra al usuario, 
     //actualiza sus datos y setea los datos q estan en body
 
     res.redirect('/');
