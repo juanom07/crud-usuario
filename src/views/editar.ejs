@@ -7,10 +7,10 @@
                 <div class="card-body">
                     <form action="/editar/<%= usuario._id %>" method="post">
                         <div class="form-group">
-                            <input type="text" name="nombre" placeholder="Ingrese un Nombre" class="form-control" value="<%= usuario.nombre %>">
+                            <input type="text" name="nombre" id="nombre" placeholder="Ingrese un Nombre" class="form-control">
                         </div>
                         <div class="form-group">
-                                <input type="text" name="apellido" placeholder="Ingrese un Apellido" class="form-control" value="<%= usuario.apellido %>">
+                                <input type="text" name="apellido" id="apellido" placeholder="Ingrese un Apellido" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">
                             Editar
@@ -23,3 +23,16 @@
 </div>
 
 <% include partials/_footer %>
+
+<script>
+    var usuario = <%- JSON.stringify(usuario) %>;
+
+    function dibujarDatosUsuario(){
+        $('#nombre').val(usuario.nombre);
+        $('#apellido').val(usuario.apellido);
+    }
+
+    $( document ).ready(function() {
+        dibujarDatosUsuario();
+    });
+</script>
