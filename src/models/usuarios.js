@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 
 const sequelize = require('../app');
+const Perfiles = require('./perfiles');
 
 const Usuarios = sequelize.define('Usuarios', {
         // attributes
@@ -20,6 +21,13 @@ const Usuarios = sequelize.define('Usuarios', {
         // options
     }
 );
+
+Usuarios.belongsTo(Perfiles, {
+    foreignKey: {
+      name: 'PerfilId',
+      allowNull: true
+    }
+});
 
 Usuarios.sync();
 

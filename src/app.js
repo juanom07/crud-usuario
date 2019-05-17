@@ -19,6 +19,7 @@ module.exports = sequelize;
 
 //IMPORTANDO RUTAS
 const indexRouter = require('./routes/index');
+const indexPerfiles = require('./routes/perfiles');
 
 //CONFIGURACION
 app.set('port', process.env.PORT || 3000);
@@ -31,6 +32,7 @@ app.use(express.urlencoded({extended: false}));
 
 //RUTAS
 app.use('/', indexRouter);
+app.use('/perfiles/', indexPerfiles);
 
 //INICIANDO EL SERVIDOR
 app.listen(app.get('port'), () => {

@@ -1,0 +1,87 @@
+<% include partials/_header %>
+
+<div class="container">
+    <div class="row">
+        <!-- FORM -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/perfiles/agregar" method="post">
+                        <div class="form-group">
+                            <input type="text" name="descripcion" placeholder="Ingrese un Perfil" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Agregar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- TABLA -->
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="bodyTablaPerfiles">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<% include partials/_footer %>
+
+
+<script>
+    var arrPerfiles = <%- JSON.stringify(perfiles) %>;
+
+    function dibujarTablaPerfiles(){
+        $('#bodyTablaPerfiles').find('tr').remove();
+    
+        for (var i = 0; i < arrPerfiles.length; i++)
+        {
+            var perfil = arrPerfiles[i];
+
+            var body = document.getElementById("bodyTablaPerfiles");
+            var row = body.insertRow();
+
+            row.id = i;
+            
+            var num = row.insertCell(0);
+            var descripcion = row.insertCell(1);
+            var acciones = row.insertCell(2);
+
+            num.innerHTML = i + 1;
+            descripcion.innerHTML = perfil.descripcion;
+            
+            dibujarAccionesDePerfil(acciones, perfil);
+        }
+    }
+
+    function dibujarAccionesDePerfil(contenedor, perfil){
+        //Agrega boton Borrar
+        var aBorrar = document.createElement('a');
+        aBorrar.setAttribute('href','/perfiles/borrar/' + perfil.id);
+        aBorrar.setAttribute('class','btn btn-danger');
+        aBorrar.text = 'Borrar';
+        contenedor.appendChild(aBorrar);
+
+        //Agrega boton Editar
+        var aEditar = document.createElement('a');
+        aEditar.setAttribute('href','/perfiles/editar/' + perfil.id);
+        aEditar.setAttribute('class','btn btn-info ml-2');
+        aEditar.text = 'Editar';
+        contenedor.appendChild(aEditar);
+    }
+
+    $( document ).ready(function() {
+        dibujarTablaPerfiles();
+    });
+</script>

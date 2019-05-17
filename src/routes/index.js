@@ -2,12 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const Usuarios = require('../models/usuarios');
+const Perfiles = require('../models/perfiles');
 
 router.get('/', async (req, res) => {
-    const usuarios = await Usuarios.findAll();
-    
+    const usuarios = await Usuarios.findAll({
+        include: [ //Estas declaraciones se pueden ir anidando, dependiendo las entidades q quiera incluir
+          {
+            model: Perfiles
+          }
+        ]
+      });
+    const perfiles = await Perfiles.findAll();
+
     res.render('index', {
-        usuarios //es lo mismo que colocar usuarios: usuarios - Actualizacion de JS
+        usuarios, //es lo mismo que colocar usuarios: usuarios - Actualizacion de JS
+        perfiles
     });
 });
 
@@ -38,10 +47,20 @@ router.get('/activar/:id', async (req, res) => {
 
 router.get('/editar/:id', async (req, res) => {
     const {id} = req.params;
-    const usuario = await Usuarios.findOne({where:{id: id}});
+    const usuario = await Usuarios.findOne({
+        where: {id: id},
+        include: [
+            {
+              model: Perfiles
+            }
+        ]
+    });
+
+    const perfiles = await Perfiles.findAll();
 
     res.render('editar', {
-        usuario
+        usuario,
+        perfiles
     });
 });
 

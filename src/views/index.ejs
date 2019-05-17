@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <!-- FORM -->
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <form action="/agregar" method="post">
@@ -13,6 +13,11 @@
                         <div class="form-group">
                                 <input type="text" name="apellido" placeholder="Ingrese un Apellido" class="form-control">
                         </div>
+                        <div class="form-group">
+                                <select name="PerfilId" id="PerfilId" class="form-control" required="true">
+                                    <option value="">-- Seleccione --</option>
+                                </select>
+                        </div>
                         <button type="submit" class="btn btn-primary btn-block">
                             Agregar
                         </button>
@@ -21,13 +26,14 @@
             </div>
         </div>
         <!-- TABLA -->
-        <div class="col-md-7">
+        <div class="col-md-8">
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Nº</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Perfil</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -45,6 +51,7 @@
 
 <script>
     var arrUsuarios = <%- JSON.stringify(usuarios) %>;
+    var arrPerfiles = <%- JSON.stringify(perfiles) %>;
 
     function dibujarTablaUsuarios(){
         $('#bodyTablaUsuarios').find('tr').remove();
@@ -61,11 +68,19 @@
             var num = row.insertCell(0);
             var nombre = row.insertCell(1);
             var apellido = row.insertCell(2);
-            var acciones = row.insertCell(3);
+            var perfil = row.insertCell(3);
+            var acciones = row.insertCell(4);
 
             num.innerHTML = i + 1;
             nombre.innerHTML = usuario.nombre;
             apellido.innerHTML = usuario.apellido;
+
+            if (usuario.Perfile != null){
+                perfil.innerHTML = usuario.Perfile.descripcion;
+            }else{
+                perfil.innerHTML = '';
+            }
+            
             
             dibujarAccionesDeUsuario(acciones, usuario);
         }
@@ -89,19 +104,35 @@
         //Agrega boton Borrar
         var aBorrar = document.createElement('a');
         aBorrar.setAttribute('href','/borrar/' + usuario.id);
-        aBorrar.setAttribute('class','btn btn-danger');
+        aBorrar.setAttribute('class','btn btn-danger ml-2');
         aBorrar.text = 'Borrar';
         contenedor.appendChild(aBorrar);
 
         //Agrega boton Editar
         var aEditar = document.createElement('a');
         aEditar.setAttribute('href','/editar/' + usuario.id);
-        aEditar.setAttribute('class','btn btn-info');
+        aEditar.setAttribute('class','btn btn-info ml-2');
         aEditar.text = 'Editar';
         contenedor.appendChild(aEditar);
     }
 
+    function dibujarSelectPerfiles(){
+        $('#PerfilId').find('option').remove();
+
+        $('#PerfilId').append(
+            $("<option></option>").attr("value", '').text('-- Seleccione --')
+        );
+
+        for (var i = 0; i < arrPerfiles.length; i++){
+            var perfil = arrPerfiles[i];
+            var option = $("<option></option>").attr("value", perfil.id).text(perfil.descripcion);
+            
+            $('#PerfilId').append(option);
+        }
+    }
+
     $( document ).ready(function() {
+        dibujarSelectPerfiles();
         dibujarTablaUsuarios();
     });
 </script>
